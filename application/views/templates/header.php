@@ -59,9 +59,9 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="tables.html">
-								<i class="ni ni-bullet-list-67 text-default"></i>
-								<span class="nav-link-text">Tables</span>
+							<a class="nav-link" href="<?php echo base_url(); ?>packages/index">
+								<i class="fa fa-database text-default"></i>
+								<span class="nav-link-text">Packages</span>
 							</a>
 						</li>
 						<li class="nav-item">

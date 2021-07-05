@@ -45,6 +45,15 @@ var Script = function () {
                 education:
                 {
                     required:true, 
+                },
+                price:
+                {
+                    integer: true,
+                    required: true,
+                },
+                description:
+                {
+                    alphaspace:true
                 }            
             },
             messages: {

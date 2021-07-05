@@ -32,7 +32,7 @@
                 $(document).ready(function() {
                     $('#dataTable').DataTable( {
                         dom: 'Bfrtip',
-                        buttons: 
+                        buttons:
                         [
                             'copy', 'csv', 'excel', 'print'
                         ]
@@ -41,9 +41,9 @@
                 $(document).ready(function() {
                     $('#dataTable1').DataTable( {
                         dom: 'Bfrtip',
-                        buttons: 
+                        buttons:
                         [
-                            
+
                         ],
                     } );
                 } );
@@ -89,8 +89,8 @@
         <script src="<?php echo base_url(); ?>assets/js/modernizr-2.6.2-respond-1.1.0.min.js"></script>
 
         <!-- form validations -->
-	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.validate.js"></script>
-	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/form-validation-script.js"></script>
+    	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/jquery.validate.js"></script>
+    	<script type="text/javascript" src="<?php echo base_url(); ?>assets/js/form-validation-script.js"></script>
 
 	</body>
 </html>

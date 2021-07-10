@@ -11,6 +11,7 @@
             </div>
         </div>
         <div class="card-body">
+            <!-- <table id="dataTable" class="table align-items-center table-flush" data-page-length='2'> -->
             <table id="dataTable" class="table align-items-center table-flush">
                 <thead class="thead-light">
                     <tr>
@@ -25,7 +26,7 @@
                         <tr>
                             <td><?php echo $value['id']; ?></td>
                             <td><?php echo $value['name']; ?></td>
-                            <td>1000</td>
+                            <td><a class="" href="<?php echo base_url(); ?>departments/department/<?php echo $value['id']; ?>"><?php echo $value['resources'] ?> ...</a></td>
                             <td>
                                 <a class="" href="<?php echo base_url(); ?>departments/edit/<?php echo $value['id']; ?>"><i class="fa fa-edit text-primary"></i></a>
                                 <a class="" href="<?php echo base_url(); ?>departments/delete/<?php echo $value['id']; ?>"><i class="fa fa-trash text-danger"></i> </a>

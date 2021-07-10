@@ -1,16 +1,18 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$route['posts/index'] = 'posts/index';
+$route['resources/index'] = 'resources/index';
 $route['posts/create'] = 'posts/create';
 $route['posts/update'] = 'posts/update';
-$route['posts/(:any)'] = 'posts/view/$1';
+$route['resources/(:any)'] = 'resources/view/$1';
 $route['posts'] = 'posts/index';
 
 $route['clients/login'] = 'clients/login';
 
 
 $route['dashboard'] = 'dashboard/index';
+
+$route['search'] = 'search/index';
 
 $route['departments'] = 'departments/index';
 
@@ -20,6 +22,9 @@ $route['routes'] = 'routes/index';
 
 
 $route['students'] = 'students/index';
+
+$route['resources'] = 'resources/index';
+
 
 
 $route['default_controller'] = 'pages/view';

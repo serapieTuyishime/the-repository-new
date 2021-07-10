@@ -3,7 +3,7 @@
 	<title>The repo | <?=$this->config->config["pageTitle"]?></title>
 	<link rel="icon" href=" <?php echo base_url(); ?>assets/img/brand/favicon.png" type="image/png">
 	<!-- <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css"> -->
-	<!-- <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style.css"> -->
+	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/style_few.css">
 
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/nucleo/css/nucleo.css" type="text/css">
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/@fortawesome/fontawesome-free/css/all.min.css" type="text/css">
@@ -13,7 +13,7 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/datatables/dataTables.bootstrap4.css">
 	<link rel="stylesheet" type="text/css" href="<?php echo base_url(); ?>assets/css/datatables/buttons.dataTables.min.css">
 
-	
+
 	<!-- Page plugins -->
 	<!-- Argon CSS -->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/argon.css?v=1.2.0" type="text/css">
@@ -38,6 +38,12 @@
 							<a class="nav-link" href="<?php echo base_url(); ?>">
 								<i class=" fa fa-home text-primary"></i>
 								<span class="nav-link-text">Home</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo base_url(); ?>dashboard/index">
+								<i class=" ni ni-tv-2 text-primary"></i>
+								<span class="nav-link-text">Dashboard</span>
 							</a>
 						</li>
 						<li class="nav-item">
@@ -97,7 +103,7 @@
 								<span class="nav-link-text">Getting started</span>
 							</a>
 						</li>
-					   
+
 					</ul>
 				</div>
 			</div>
@@ -111,13 +117,13 @@
 			<div class="container-fluid">
 				<div class="collapse navbar-collapse" id="navbarSupportedContent">
 					<!-- Search form -->
-					<form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main">
+					<form class="navbar-search navbar-search-light form-inline mr-sm-3" id="navbar-search-main" action="<?php echo base_url() ?>search" method="post">
 						<div class="form-group mb-0">
 							<div class="input-group input-group-alternative input-group-merge">
 								<div class="input-group-prepend">
 									<span class="input-group-text"><i class="fas fa-search"></i></span>
 								</div>
-								<input class="form-control" placeholder="Search" type="text">
+								<input class="form-control" placeholder="Search" type="text" name="content" required>
 							</div>
 						</div>
 						<button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
@@ -156,11 +162,11 @@
 										<?php $count=0; foreach ($this->config->config['notifications'] as $key => $value): ?>
 											<?php if ($this->session->userdata('userType') == $value['access']): ?>
 													<!-- only print messages for the current user                                        -->
-											
-												<?php 
+
+												<?php
 												if ($count==5) {
 													break;  #limited to five so they do not fill the whole page
-												} 
+												}
 													++$count;
 
 												?>
@@ -241,7 +247,13 @@
 										<img alt="Image placeholder" src="<?php echo base_url() ?>assets/images/users/user.png">
 									</span>
 									<div class="media-body  ml-2  d-none d-lg-block">
-										<span class="mb-0 text-sm  font-weight-bold">John Snow</span>
+										<span class="mb-0 text-sm  font-weight-bold">
+											<?php if ($this->session->userdata('logged_in')) {
+												echo $this->session->userdata('username');
+											}else {
+												echo "John Snow";
+											} ?>
+									</span>
 									</div>
 								</div>
 							</a>
@@ -249,6 +261,16 @@
 								<div class="dropdown-header noti-title">
 									<h6 class="text-overflow m-0">Welcome!</h6>
 								</div>
+								<?php if ($this->session->userdata('logged_in')): ?>
+									<a href="<?php echo base_url(). $this->session->userdata('userType'); ?>s/change_password" class="dropdown-item">
+										<i class="ni ni-ui-04"></i>
+										<span>Change password</span>
+									</a>
+									<a href="<?php echo base_url() ?>dashboard/logout" class="dropdown-item">
+										<i class="ni ni-user-run"></i>
+										<span>Logout</span>
+									</a>
+								<?php endif; ?>
 								<a href="#!" class="dropdown-item">
 									<i class="ni ni-single-02"></i>
 									<span>My profile</span>
@@ -266,17 +288,14 @@
 									<span>Support</span>
 								</a>
 								<div class="dropdown-divider"></div>
-								<a href="#!" class="dropdown-item">
-									<i class="ni ni-user-run"></i>
-									<span>Logout</span>
-								</a>
+
 							</div>
 						</li>
 					</ul>
 				</div>
 			</div>
 		</nav>
-	   
+
 		<!-- Header -->
 		<div class="header bg-primary pb-6">
 		  <div class="container-fluid">
@@ -301,6 +320,10 @@
 
 			<?php if($this->session->flashdata('created')): ?>
 				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('created').'</p>'; ?>
+			<?php endif; ?>
+
+			<?php if($this->session->flashdata('not_matching')): ?>
+				<?php echo '<p class="alert alert-warning">'.$this->session->flashdata('not_matching').'</p>'; ?>
 			<?php endif; ?>
 
 			<?php if($this->session->flashdata('route_edited')): ?>
@@ -336,6 +359,6 @@
 				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('user_loggedout').'</p>'; ?>
 			<?php endif; ?>
 
-			<?php if($this->session->flashdata('category_deleted')): ?>
-				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('category_deleted').'</p>'; ?>
+			<?php if($this->session->flashdata('deleted')): ?>
+				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('deleted').'</p>'; ?>
 			<?php endif; ?>

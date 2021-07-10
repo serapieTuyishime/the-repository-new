@@ -2,7 +2,7 @@
 	class Student_model extends CI_Model{
 		public function create($enc_password){
             // students data array
-            
+
             // make last access date based on number of years selected
             $newEndingDate = date("Y-m-d", strtotime(date("Y-m-d", strtotime(date('Y-m-d'))) . " + ".$this->input->post('access_years')." years"));
 
@@ -15,11 +15,11 @@
                 'expiring_date'=>$newEndingDate,
                 'password'=>$enc_password
             );
-            
+
 
 			// Insert student
             $this->db->insert('students', $data);
-            
+
             // generate the username from the last inserted id combined with the school id
             $last_id = $this->db->insert_id();
             $newUserName= $school_id .'-'.$last_id;
@@ -33,7 +33,7 @@
 
 			$this->db->where('id', $last_id);
 			return $this->db->update('students', $data);
-            
+
 		}
 
 		// Log student in
@@ -82,8 +82,32 @@
 			if($limit){
 				$this->db->limit($limit, $offset);
 			}
-			
+
             $query = $this->db->get_where('students', array('school_id' => $id));
 			return $query->result_array();
+		}
+		public function verify_password($id, $password){
+			// Validate
+			$this->db->where('id', $id);
+			$this->db->where('password', $password);
+
+			$result = $this->db->get('students');
+
+			if($result->num_rows() == 1){
+				return $result->row(0)->id;
+			} else {
+				return false;
+			}
+		}
+		public function update_passsword($enc_password, $student_id = NULL){
+			$data = array(
+				'password' => $enc_password
+			);
+
+			if (!$student_id) {
+				$student_id = $this->input->post('id');
+			}
+			$this->db->where('id', $student_id);
+			return $this->db->update('students', $data);
 		}
 	}

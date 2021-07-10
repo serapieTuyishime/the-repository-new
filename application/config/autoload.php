@@ -120,4 +120,4 @@ $autoload['config'] = array();
 $autoload['language'] = array();
 
 
-$autoload['model'] = array('post_model','route_model','category_model', 'comment_model','user_model','notification_model', 'bus_model', 'trip_model','client_model','researcher_model','school_model', 'student_model', 'department_model','package_model');
+$autoload['model'] = array('post_model','route_model','category_model', 'comment_model','user_model','notification_model', 'bus_model', 'trip_model','client_model','researcher_model','school_model', 'student_model', 'department_model','package_model','resources_model','search_model','admin_model', 'subscription_model');

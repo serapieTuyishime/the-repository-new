@@ -31,7 +31,12 @@
                             <td><?php echo $value['name']; ?></td>
                             <td><?php echo $value['email']; ?></td>
                             <td><?php echo $value['username']; ?></td>
-                            <td class="text-right">
+                            <td>
+                                <a href="<?php echo base_url(); ?>students/edit/<?php echo $value['id']; ?>"><i class="fa fa-edit text-primary"></i></a>
+                                <a href="<?php echo base_url(); ?>students/delete/<?php echo $value['id']; ?>"><i class="fa fa-trash text-danger"></i> </a>
+                                <a href="<?php echo base_url(); ?>students/reset_password/<?php echo $value['id']; ?>"><i class="fa fa-lock text-warning"></i> </a>
+                            </td>
+                            <td class="text-right" hidden>
                                 <div class="dropdown">
                                     <a class="btn btn-sm btn-icon-only text-light" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="fas fa-ellipsis-v"></i>

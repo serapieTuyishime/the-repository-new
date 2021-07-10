@@ -48,4 +48,14 @@
 				return false;
 			}
 		}
+
+		// change Password
+		public function update_passsword($enc_password){
+			$data = array(
+				'password' => $enc_password
+			);
+
+			$this->db->where('id', $this->session->userdata('user_id'));
+			return $this->db->update('clients', $data);
+		}
 	}

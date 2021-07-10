@@ -29,10 +29,17 @@
                                 </div>
                                 <p class="mt-3 mb-0 text-sm">
                                     <span class=""><?php echo word_limiter($value['description'], 10); ?></span>
-                                    <a href="<?php echo base_url() ?>packages/get" >
-                                        <span class="d-none d-md-block btn btn-primary"><i class="fa fa-coins"></i> Get</span>
-                                        <span class="d-md-none"><i class="fa fa-coins"></i></span>
-                                    </a>
+                                    <?php if ($this->session->userdata('userType')=='admin'): ?>
+                                        <a href="<?php echo base_url().'packages/edit/'.$value['id']; ?>" >
+                                            <span class="d-none d-md-block btn btn-primary"><i class="fa fa-edit"></i> Edit</span>
+                                            <span class="d-md-none"><i class="fa fa-edit"></i></span>
+                                        </a>
+                                    <?php else: ?>
+                                        <a href="<?php echo base_url().'packages/subscribe/'.$value['id']; ?>" >
+                                            <span class="d-none d-md-block btn btn-primary"><i class="fa fa-coins"></i> Get</span>
+                                            <span class="d-md-none"><i class="fa fa-coins"></i></span>
+                                        </a>
+                                    <?php endif; ?>
                                 </p>
                             </div>
 

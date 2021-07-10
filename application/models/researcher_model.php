@@ -7,9 +7,9 @@
 				'email' => $this->input->post('email'),
 				'username' => $this->input->post('username'),
 				'password' => $enc_password,
-        'photo' => $image_name,
-        'description'=> $this->input->post('description'),
-        'bank_acc'=> $this->input->post('bank_acc'),
+		        'photo' => $image_name,
+		        'description'=> $this->input->post('description'),
+		        'bank_acc'=> $this->input->post('bank_acc'),
 			);
 
 			// Insert user
@@ -49,5 +49,50 @@
 			} else {
 				return false;
 			}
+		}
+
+		// change Password
+		public function update_passsword($enc_password){
+			$data = array(
+				'password' => $enc_password
+			);
+
+			$this->db->where('id', $this->session->userdata('user_id'));
+			return $this->db->update('researchers', $data);
+		}
+
+		// get all researchs by one author
+		public function get_resources_by_author($id, $limit = FALSE, $offset = FALSE){
+			if($limit){
+				$this->db->limit($limit, $offset);
+			}
+			$query = $this->db->get_where('resources', array('researcher_id', $id));
+			return $query->result_array();
+
+		}
+
+		// select all researchers
+		public function get_researchers($id= FALSE, $limit = FALSE, $offset = FALSE){
+			if($limit){
+				if (!$offset) {
+					$offset =0;
+				}
+				$query = $this->db->query('SELECT *, (SELECT count(researcher_id) FROM resources where resources.department = researchers.id) as resources from researchers order by resources desc LIMIT '.$limit .' OFFSET '. $offset );
+				return $query->result_array();
+			}
+
+			if ($id) {
+				$query = $this->db->get_where('departments', array('id' => $id));
+				return $query->row_array();
+			}
+			// $this->db->join('resources', 'resources.department');
+			$query = $this->db->query('SELECT *, (SELECT count(researcher_id) FROM resources where resources.department = researchers.id) as resources from researchers order by resources desc');
+			return $query->result_array();
+		}
+		// get researcher info
+		public function get_researcher($id)
+		{
+			$query = $this->db->get_where('researchers', array('id' => $id));
+			return $query->row_array();
 		}
 	}

@@ -76,6 +76,61 @@
 			$query = $this->db->get_where('downloads', array('resource_id' => $id));
 			return $query->num_rows();
 		}
+
+		// get downloads per Students the CI way
+		public function downloads_per_students_old($school_id){
+			$this->db->select('resource_id');
+			$this->db->group_by('student_id');
+			$this->db->like('student_id', $school_id.'-' ,'after');
+			$query = $this->db->get('downloads');
+			return $query->result_array();
+		}
+
+		public function downloads_per_students($school_id, $limit = FALSE){
+			if ($limit) {
+				$query = $this->db->query("SELECT `resource_id`, count(student_id) as downloads, student_id FROM `downloads` WHERE `student_id` LIKE '".$school_id."-%' ESCAPE '!' GROUP BY `student_id` ORDER BY `downloads` DESC LIMIT ". $limit);
+			}
+			else {
+				$query = $this->db->query("SELECT `resource_id`, count(student_id) as downloads, student_id FROM `downloads` WHERE `student_id` LIKE '".$school_id."-%' ESCAPE '!' GROUP BY `student_id` ORDER BY `downloads` DESC");
+			}
+			return $query->result_array();
+		}
+
+		public function resources_by_researcher($id, $limit = FALSE, $offset = FALSE){
+			if($limit){
+				if (!$offset) {
+					$offset =0 ;
+				}
+				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where researcher_id ="'.$id.'" order by downloads desc LIMIT '. $limit . ' OFFSET ' . $offset);
+				return $query->result_array();
+			}
+			else {
+				$this->db->order_by('id', 'DESC');
+				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where researcher_id ="'.$id.'" order by downloads desc');
+				return $query->result_array();
+			}
+
+			$query = $this->db->get_where('resources', array('id' => $id));
+			return $query->row_array();
+		}
+
+		// resources in a departments
+		public function resources_by_department($id, $limit = FALSE, $offset = FALSE){
+			if($limit){
+				if (!$offset) {
+					$offset = 0 ;
+				}
+				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where department ="'.$id.'" order by downloads desc LIMIT '. $limit . ' OFFSET ' . $offset);
+				return $query->result_array();
+			}
+			else {
+				$this->db->order_by('id', 'DESC');
+				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where department ="'.$id.'" order by downloads desc');
+				return $query->result_array();
+			}
+
+		}
+
     }
 
 ?>

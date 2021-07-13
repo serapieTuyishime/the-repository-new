@@ -35,10 +35,10 @@
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav mx-auto">
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="index.html">Home</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="Research.html">Researchs</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="upload.html">Upload</a></li>
-                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="packages.html">Packages</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="<?php echo base_url() ?>">Home</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="<?php echo base_url() ?>resources/index">Researchs</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="<?php echo base_url() ?>resources/create">Upload</a></li>
+                        <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="<?php echo base_url() ?>packages">Packages</a></li>
                         <li class="nav-item px-lg-4"><a class="nav-link text-uppercase" href="<?php echo base_url() ?>clients/login">Login</a></li>
                     </ul>
                 </div>
@@ -113,11 +113,11 @@
                 </div>
             </div>
         </section>
-        
+
         <footer class="footer text-faded text-center py-5">
             <div class="container"><p class="m-0 small">Copyright &copy; The repository 2021</p></div>
         </footer>
-        
+
         <!-- Bootstrap core JS-->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Core theme JS-->

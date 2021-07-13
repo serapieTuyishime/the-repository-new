@@ -1,13 +1,36 @@
 <?php
 
 	class Schools extends CI_Controller{
+		public function index()
+	    {
+	        if ($this->session->userdata('userType') != 'admin') {
+				$this->session->set_flashdata('login_failed', 'Admins only can view schools');
+	            redirect('admins/login');
+	        }
+	        $this->config->config['pageTitle']= $data['title']='All schools';
+	        $this->config->config['notifications']= $this->notification_model->get_unread();
+
+	        $data= [
+	            'schools' => $this->school_model->get_schools(),
+	        ];
+
+	        $this->load->view('templates/header');
+	        $this->load->view('schools/index', $data);
+	        $this->load->view('templates/footer');
+	    }
 		public function create()
 		{
+			// only admin can create a school
+			if ($this->session->userdata('userType') != 'admin') {
+				$this->session->set_flashdata('login_failed', 'Only admin can add school');
+				redirect('admins/login');
+			}
 
 			$this->config->config['pageTitle']=$data['title'] = 'Add school';
 
 			$this->form_validation->set_rules('email', 'Email', 'required|callback_check_email_exists');
 			$this->form_validation->set_rules('username', 'Username', 'required|callback_check_username_exists');
+			$this->form_validation->set_rules('telephone', 'Telephone', 'required|callback_check_telephone_exists');
 
 
 			if($this->form_validation->run() === FALSE)
@@ -40,6 +63,64 @@
 				$this->session->set_flashdata('created', 'New school has been added');
 
 				redirect('schools/create');
+			}
+		}
+
+		public function edit($id)
+		{
+			// only admin can create a school
+			if ($this->session->userdata('userType') != 'admin') {
+				$this->session->set_flashdata('login_failed', 'Only admin can update school');
+				redirect('admins/login');
+			}
+			$school_info = $this->school_model->get_schools($id);
+
+			$this->config->config['pageTitle']=$data['title'] = 'Edit school';
+
+			$this->form_validation->set_rules('email', 'Email', 'required');
+			// $this->form_validation->set_rules('username', 'Username', 'required');
+
+
+			if($this->form_validation->run() === FALSE)
+			{
+				// means no form was submitted or when validation found something
+
+				// So if it have to display errors it will take back what you entered before
+				$data['school']=[
+					'id'=>$school_info['id'],
+					'name'=>$school_info['name'],
+					'email'=>$school_info['email'],
+					'telephone'=>$school_info['telephone'],
+					'description'=>$school_info['description'],
+				];
+
+				$this->config->config['notifications']= $this->notification_model->get_unread();
+
+				$this->load->view('templates/header');
+				$this->load->view('schools/edit', $data);
+				$this->load->view('templates/footer');
+			}
+			else
+			{
+				$valid= $this->school_model->check_email_exists_edit($this->input->post('email'), $id);
+				$valid= $this->school_model->check_telephone_exists_edit($this->input->post('telephone'), $id);
+
+
+				if ($valid) {
+					$this->school_model->update($id);
+					// Set message
+					$this->session->set_flashdata('created', 'School info updated');
+
+					redirect('schools/index');
+				}
+				else {
+					// Set message
+					$this->session->set_flashdata('not_matching', 'The email or telephone has been taken by another school');
+
+					redirect('schools/edit/'.$id);
+				}
+
+
 			}
 		}
 
@@ -140,6 +221,16 @@
 		public function check_email_exists($email){
 			$this->form_validation->set_message('check_email_exists', 'That email is taken. Please choose a different one');
 			if($this->school_model->check_email_exists($email)){
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		// Check if telephone exists
+		public function check_telephone_exists($telephone){
+			$this->form_validation->set_message('check_telephone_exists', 'That telephone is taken. Please choose a different one');
+			if($this->school_model->check_telephone_exists($telephone)){
 				return true;
 			} else {
 				return false;

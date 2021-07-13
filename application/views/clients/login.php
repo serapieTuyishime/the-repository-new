@@ -110,7 +110,7 @@
         <!-- Page content -->
         <div class="container mt--8 pb-5">
             <div class="row justify-content-center">
-                
+
                 <div class="col-lg-5 col-md-7">
                     <div class="card bg-secondary border-0 mb-0">
                         <div class="card-body px-lg-5 py-lg-5">
@@ -124,7 +124,15 @@
                                 <?php endif; ?>
                             </div>
                             <div class="text-center text-muted mb-4">
-                                <h3>Client Sign in</h3>
+                                <h3>Client Sign in or as <a class="btn btn-sm btn-icon-only text-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-list"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                    <a class="dropdown-item" href="<?php echo base_url(); ?>students/login">Student</a>
+                                    <a class="dropdown-item" href="<?php echo base_url(); ?>researchers/login">Researcher</a>
+                                    <a class="dropdown-item" href="<?php echo base_url(); ?>admins/login">Admin</a>
+                                    <a class="dropdown-item" href="<?php echo base_url(); ?>schools/login">School</a>
+                                </div></h3>
                             </div>
                             <div class="text-warning font-weight-bold">
                                 <?php echo validation_errors(); ?>
@@ -146,7 +154,7 @@
                                         <input class="form-control" placeholder="Password" type="password" name="password">
                                     </div>
                                 </div>
-                                <div class="custom-control custom-control-alternative custom-checkbox">                                    
+                                <div class="custom-control custom-control-alternative custom-checkbox">
                                     <label class="" >
                                         Don't have an account ?  <span class="text-muted"><a href="<?php echo base_url()?>clients/register">Sign up</a></span>
                                     </label>
@@ -175,13 +183,13 @@
             <div class="row align-items-center justify-content-xl-between">
                 <div class="col-xl-6">
                     <div class="copyright text-center text-xl-left text-muted">
-                        &copy; 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">Creative Tim</a>
+                        &copy; 2020 <a href="https://www.creative-tim.com" class="font-weight-bold ml-1" target="_blank">...</a>
                     </div>
                 </div>
                 <div class="col-xl-6">
                     <ul class="nav nav-footer justify-content-center justify-content-xl-end">
                         <li class="nav-item">
-                            <a href="https://www.creative-tim.com" class="nav-link" target="_blank">Creative Tim</a>
+                            <a href="https://www.creative-tim.com" class="nav-link" target="_blank">...</a>
                         </li>
                         <li class="nav-item">
                             <a href="https://www.creative-tim.com/presentation" class="nav-link" target="_blank">About Us</a>

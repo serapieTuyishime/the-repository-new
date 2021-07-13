@@ -103,7 +103,7 @@
 
 		// select package details for a packages
 		public function get_details($id){
-			$query= $this->db->get_where('package_detail', array('package_id' => $id));
+			$query= $this->db->query('SELECT *, (SELECT name from departments where departments.id = package_detail.department_id limit 1) as department_name from package_detail where package_id =' .$id);
 			return $query->result_array();
 		}
 	}

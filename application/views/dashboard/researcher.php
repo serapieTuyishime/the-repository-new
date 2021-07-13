@@ -18,17 +18,17 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Our students</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo $students; ?></span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total schools</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo $schools; ?></span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-red text-white rounded-circle shadow">
-                                        <i class="fa fa-users"></i>
+                                        <i class="ni ni-building"></i>
                                     </div>
                                 </div>
                             </div>
                             <p class="mt-3 mb-0 text-sm">
-                                <a href="<?php echo base_url(); ?>students/index">
+                                <a href="<?php echo base_url(); ?>schools/index">
                                     <span class="text-nowrap">View more</span>
                                 </a>
                             </p>
@@ -41,8 +41,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Active deals</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo $active_subscriptions; ?></span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total sections</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo $departments; ?></span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -65,8 +65,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Next bill</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo date('d-M-y', strtotime($lastAccessDate)) ?></span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total resources</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo $resources; ?></span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-cyan text-white rounded-circle shadow">
@@ -76,6 +76,30 @@
                             </div>
                             <p class="mt-3 mb-0 text-sm">
                                 <a href="<?php echo base_url(); ?>resources/index">
+                                    <span class="text-nowrap">View more</span>
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Total Authors</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo $researchers; ?></span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-yellow text-black rounded-circle shadow">
+                                        <i class="fa fa-users"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mt-3 mb-0 text-sm">
+                                <a href="<?php echo base_url(); ?>researchers/index">
                                     <span class="text-nowrap">View more</span>
                                 </a>
                             </p>
@@ -92,37 +116,32 @@
             <div class="card-header border-0">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="mb-0">Subscriptions</h3>
+                        <h3 class="mb-0">Downloads</h3>
                     </div>
                     <div class="col text-right">
-                        <a href="<?php echo base_url() ?>packages/index" class="btn btn-sm btn-primary">New</a>
+                        <a href="<?php //echo base_url() ?>resources/statistics" class="btn btn-sm btn-primary">See all</a>
                     </div>
                 </div>
             </div>
             <div class="table-responsive">
-                <!-- subscriptions table -->
+                <!-- Projects table -->
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">Package ID</th>
-                            <th scope="col">Date start</th>
-                            <th scope="col">Date End</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Downloads</th>
+                            <th scope="col">Saves</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($packages)): ?>
-                            <?php foreach ($packages as $key => $value): ?>
+                        <?php if (!empty($my_resources)): ?>
+                            <?php foreach ($my_resources as $key => $value): ?>
                                 <tr>
-                                    <th scope="row">  <a href="<?php echo base_url().'packages/package/'. $value['package_id'] ?>"><?php echo $value['package_id'] ?></a>
-                                    </th>
-                                    <td><?php echo $value['date_start'] ?></td>
-                                    <td><?php echo $value['date_end'] ?></td>
+                                    <th scope="row"><?php echo $value['title'] ?></th>
+                                    <td><?php echo $value['downloads'] ?></td>
+                                    <td><?php echo $value['saves'] ?></td>
                                 </tr>
                             <?php endforeach; unset($value); unset($key);?>
-                        <?php else: ?>
-                            <tr>
-                                <td colspan="3">No subscriptions active</td>
-                            </tr>
                         <?php endif; ?>
                     </tbody>
                 </table>
@@ -134,10 +153,10 @@
             <div class="card-header border-0">
                 <div class="row align-items-center">
                     <div class="col">
-                        <h3 class="mb-0">Active Students</h3>
+                        <h3 class="mb-0">Popular resources</h3>
                     </div>
                     <div class="col text-right">
-                        <a href="<?php echo base_url() ?>subscriptions/index" class="btn btn-sm btn-primary">See all</a>
+                        <a href="<?php echo base_url() ?>researchers/resources" class="btn btn-sm btn-primary">See all</a>
                     </div>
                 </div>
             </div>
@@ -146,17 +165,17 @@
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col"><i class="fa fa-hashtag"></i></th>
-                            <th scope="col">Student Id</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
                             <th scope="col">Downloads</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php if (!empty($downloadsPerStudents)): ?>
-                            <?php foreach ($downloadsPerStudents as $key => $value): ?>
+                        <?php if (!empty($all_resources)): ?>
+                            <?php foreach ($all_resources as $key => $value): ?>
                                 <tr>
-                                    <th scope="row"><?php echo $key +1 ?></th>
-                                    <td><?php echo $value['student_id'] ?></td>
+                                    <th scope="row"><?php echo $value['title'] ?></th>
+                                    <td><?php echo $value['author'] ?></td>
                                     <td><?php echo $value['downloads'] ?></td>
                                 </tr>
                             <?php endforeach; unset($value); unset($key);?>

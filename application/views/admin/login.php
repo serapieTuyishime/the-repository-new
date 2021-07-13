@@ -124,7 +124,15 @@
                                 <?php endif; ?>
                             </div>
                             <div class="text-center text-muted mb-4">
-                                <h3>Admin Sign in</h3>
+                                <h3>Admin Sign in or as <a class="btn btn-sm btn-icon-only text-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-list"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+                                    <a class="dropdown-item" href="<?php echo base_url(); ?>students/login">Student</a>
+                                    <a class="dropdown-item" href="<?php echo base_url(); ?>researchers/login">Researcher</a>
+                                    <a class="dropdown-item" href="<?php echo base_url(); ?>students/login">Student</a>
+                                    <a class="dropdown-item" href="<?php echo base_url(); ?>schools/login">School</a>
+                                </div></h3>
                             </div>
                             <div class="text-warning font-weight-bold">
                                 <?php echo validation_errors(); ?>

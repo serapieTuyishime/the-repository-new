@@ -26,8 +26,8 @@ class Researchers extends CI_Controller{
 			if(!$this->upload->do_upload()){
 				$errors = array('error' => $this->upload->display_errors());
 				$image_name = 'noimage.jpg';
-				print_r ($errors);
-				die();
+				// print_r ($errors);
+				// die();
 			} else {
 				$data = array('upload_data' => $this->upload->data());
 				$image_name = $_FILES['userfile']['name'];
@@ -75,7 +75,7 @@ class Researchers extends CI_Controller{
 				// Set message
 				$this->session->set_flashdata('user_loggedin', 'You are now logged in');
 
-				redirect('resources');
+				redirect('dashboard/index');
 			} else {
 				// Set message
 				$this->session->set_flashdata('login_failed', 'Login is invalid');
@@ -85,17 +85,22 @@ class Researchers extends CI_Controller{
 		}
 	}
 
-	// Log user out
-	public function logout(){
-		// Unset user data
-		$this->session->unset_userdata('logged_in');
-		$this->session->unset_userdata('user_id');
-		$this->session->unset_userdata('username');
+	// the researcher profile anyone can see it
+	public function profile($id){
+		$this->config->config['pageTitle']= $data['title']='Researcher profile';
+        $this->config->config['notifications']= $this->notification_model->get_unread();
 
-		// Set message
-		$this->session->set_flashdata('user_loggedout', 'You are now logged out');
+        $data['researcher'] = $this->researcher_model->get_researchers($id);
+		$data =[
+			'info' =>$this->researcher_model->get_researchers($id),
+			'resources' => $this->resources_model->resources_by_researcher($id, 10)
+		];
 
-		redirect('researchers/login');
+		// die(print_r($data['resources']));
+
+        $this->load->view('templates/header');
+        $this->load->view('researchers/profile', $data);
+        $this->load->view('templates/footer');
 	}
 
 	// Check if username exists

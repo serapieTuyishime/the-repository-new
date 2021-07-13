@@ -77,16 +77,16 @@
 				if (!$offset) {
 					$offset =0;
 				}
-				$query = $this->db->query('SELECT *, (SELECT count(researcher_id) FROM resources where resources.department = researchers.id) as resources from researchers order by resources desc LIMIT '.$limit .' OFFSET '. $offset );
+				$query = $this->db->query('SELECT *, (SELECT count(researcher_id) FROM resources where resources.researcher_id = researchers.id) as resources from researchers order by resources desc LIMIT '.$limit .' OFFSET '. $offset );
 				return $query->result_array();
 			}
 
 			if ($id) {
-				$query = $this->db->get_where('departments', array('id' => $id));
+				$query = $this->db->query('SELECT *, (SELECT count(researcher_id) FROM resources where resources.researcher_id = researchers.id) as resources from researchers where id ="'.$id.'"');
 				return $query->row_array();
 			}
-			// $this->db->join('resources', 'resources.department');
-			$query = $this->db->query('SELECT *, (SELECT count(researcher_id) FROM resources where resources.department = researchers.id) as resources from researchers order by resources desc');
+			// $this->db->join('resources', 'resources.researcher_id');
+			$query = $this->db->query('SELECT *, (SELECT count(researcher_id) FROM resources where resources.researcher_id = researchers.id) as resources from researchers order by resources desc');
 			return $query->result_array();
 		}
 		// get researcher info

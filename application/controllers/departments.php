@@ -4,6 +4,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Departments extends CI_Controller {
     public function index()
     {
+        if ($this->session->userdata('userType') != 'admin') {
+            redirect('departments/show');
+        }
         $this->config->config['pageTitle']= $data['title']='All departments';
         $this->config->config['notifications']= $this->notification_model->get_unread();
 
@@ -15,8 +18,28 @@ class Departments extends CI_Controller {
         $this->load->view('departments/index', $data);
         $this->load->view('templates/footer');
     }
+
+    // for the public who are not logged in
+    public function show()
+    {
+        $this->config->config['pageTitle']= $data['title']='All departments';
+        $this->config->config['notifications']= $this->notification_model->get_unread();
+
+        $data= [
+            'departments' => $this->department_model->getdepartments(),
+        ];
+
+        // die(print_r($data));
+
+        $this->load->view('templates/header');
+        $this->load->view('departments/show', $data);
+        $this->load->view('templates/footer');
+    }
     public function create()
     {
+        if ($this->session->userdata('userType') != 'admin') {
+            redirect('departments/show');
+        }
 
         $this->config->config['pageTitle']=$data['title'] = 'Add department';
 
@@ -53,7 +76,38 @@ class Departments extends CI_Controller {
 
     }
 
+    // view all reosurces in a department
+    public function department($id, $offset=0){
+
+        $department_name= $this->department_model->getdepartments($id)['name'];
+        // this displays all the resources
+        $this->config->config['pageTitle']= $data['title']='Resources in '.$department_name. ' topic';
+        $this->config->config['notifications']= $this->notification_model->get_unread();
+
+        $all_resources = empty($this->resources_model->resources_by_department($id)) ? 0 : sizeof($this->resources_model->resources_by_department($id));
+
+
+        // Pagination Config
+		$config['base_url'] = base_url() . 'departments/department/'.$id.'/';
+		$config['total_rows'] = $all_resources;
+		$config['per_page'] = 6;
+		$config['uri_segment'] = 3;
+		$config['attributes'] = array('class' => 'pagination-link');
+
+		// Init Pagination
+		$this->pagination->initialize($config);
+
+
+        $data['resources'] = $this->resources_model->resources_by_department($id , $config['per_page'], $offset);
+        $this->load->view('templates/header');
+        $this->load->view('departments/resources', $data);
+        $this->load->view('templates/footer');
+    }
+
     public function edit($id){
+        if ($this->session->userdata('userType') != 'admin') {
+            redirect('departments/show');
+        }
 
         $this->config->config['pageTitle']= $data['title']='All departments';
         $this->config->config['notifications'] = $this->notification_model->get_unread();
@@ -90,7 +144,7 @@ class Departments extends CI_Controller {
     public function delete($id){
         // check loggin
         if ($this->session->userdata('userType') != 'admin') {
-            $this->session->set_flashdata('login_failed', 'An admin shoulld be only allowed to delete a department');
+            $this->session->set_flashdata('login_failed', 'An admin should be only allowed to delete a department');
             redirect ('admins/login');
         }
         else {

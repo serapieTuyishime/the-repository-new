@@ -26,6 +26,10 @@ class resources extends CI_Controller {
     }
     public function create()
     {
+        if ($this->session->userdata('userType') != 'researcher') {
+            $this->session->set_flashdata('login_failed', 'Only the researcher can upload');
+            redirect('researchers/login');
+        }
 
         $this->config->config['pageTitle']=$data['title'] = 'Upload a resource';
 
@@ -108,11 +112,21 @@ class resources extends CI_Controller {
 
     public function edit($id)
     {
+        if ($this->session->userdata('userType') != 'researcher') {
+            $this->session->set_flashdata('login_failed', 'Oly the researcher cam update');
+            redirect('researchers/login');
+        }
 
         $this->form_validation->set_rules('price', 'Price', 'required');
 
         $resource_info =$this->resources_model->get_resources($id);
         $this->config->config['pageTitle']=$data['title'] = 'Update '. $resource_info['title']. ' info';
+
+        // check if the author id equals the logged in Id
+        if ($resource_info['researcher_id'] != $this->session->userdata('user_id')) {
+            $this->session->set_flashdata('not_matching', 'This resource may not be yours');
+            redirect('resources/index');
+        }
 
         $cwd = getcwd(); // save the current working directory
         $document_file_path = $cwd."\\assets\\documents\\resources\\".$resource_info['title_slug'];
@@ -146,6 +160,7 @@ class resources extends CI_Controller {
         }
         else
         {
+
             // update the abstract
             $myfile= fopen($document_file_path.'\abstract.txt', 'w');
 			fwrite($myfile, trim($this->input->post('description')));
@@ -171,7 +186,7 @@ class resources extends CI_Controller {
         }
     }
     public function resource($id){
-        // if the logged in is the researcher then go to a different page
+
         $this->config->config['notifications']= $this->notification_model->get_unread();
         $resource_info =$this->resources_model->get_resources($id);
 
@@ -232,7 +247,7 @@ class resources extends CI_Controller {
                     $data= array (
         				'title' => $resource_info['title'],
         				'resource_id' => $resource_info['id'],
-        				'student_id' => $this->session->userdata('user_id'),
+        				'student_id' => $this->session->userdata('username'),
                         'client_id' => NULL,
                         'on_subscription' => TRUE
         			);
@@ -279,7 +294,8 @@ class resources extends CI_Controller {
                 }
 
             default:
-                // code...
+                $this->session->set_flashdata('not_matching', 'Errors present please try logging out and logging in');
+                redirect ('resources/index');
                 break;
         }
     }

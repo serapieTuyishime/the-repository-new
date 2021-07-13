@@ -16,6 +16,18 @@
 			return $this->db->insert('school', $data);
 		}
 
+		// update school info
+		public function update($id){
+			$data = array(
+				'name'=> $this->input->post('name'),
+				'email'=> $this->input->post('email'),
+				'telephone'=> $this->input->post('telephone'),
+				'description'=> trim($this->input->post('description'))
+			);
+			$this->db->where('id', $id);
+			return $this->db->update('school', $data);
+		}
+
 		public function get_schools($id = FALSE, $limit = FALSE, $offset = FALSE){
 			if($limit){
 				if (!$offset) {
@@ -30,7 +42,7 @@
 				return $query->result_array();
 			}
 
-			$query = $this->db->get_where('resources', array('id' => $id));
+			$query = $this->db->get_where('school', array('id' => $id));
 			return $query->row_array();
 		}
 
@@ -62,6 +74,36 @@
 		// Check email exists
 		public function check_email_exists($email){
 			$query = $this->db->get_where('school', array('email' => $email));
+			if(empty($query->row_array())){
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		// Check email exists
+		public function check_telephone_exists($telephone){
+			$query = $this->db->get_where('school', array('telephone' => $telephone));
+			if(empty($query->row_array())){
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		// Check email exists during edit
+		public function check_email_exists_edit($email, $id){
+			$query = $this->db->get_where('school', array('email' => $email, 'id != '=>$id));
+			if(empty($query->row_array())){
+				return true;
+			} else {
+				return false;
+			}
+		}
+
+		// Check email exists
+		public function check_telephone_exists_edit($telephone, $id){
+			$query = $this->db->get_where('school', array('telephone' => $telephone, 'id != '=>$id));
 			if(empty($query->row_array())){
 				return true;
 			} else {

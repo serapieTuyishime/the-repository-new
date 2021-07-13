@@ -15,6 +15,9 @@ class Packages extends CI_Controller {
     }
     public function create()
     {
+        if ($this->session->userdata('userType') != 'admin') {
+            redirect('packages/index');
+        }
 
         $this->config->config['pageTitle']=$data['title'] = 'Add Package';
 
@@ -53,6 +56,9 @@ class Packages extends CI_Controller {
 
     public function edit($id)
     {
+        if ($this->session->userdata('userType') != 'admin') {
+            redirect('packages/index');
+        }
 
         $this->config->config['pageTitle']=$data['title'] = 'Update Package info';
 
@@ -104,6 +110,9 @@ class Packages extends CI_Controller {
     }
 
     public function delete($id){
+        if ($this->session->userdata('userType') != 'admin') {
+            redirect('packages/index');
+        }
         // delete the details assigned to the package
         $this->package_model->delete_details($id);
 
@@ -113,6 +122,26 @@ class Packages extends CI_Controller {
         $this->session->set_flashdata('deleted', 'Package successful deleted');
         redirect('packages/index');
     }
+
+    public function package($package_id){
+        // purely informative page
+
+        $package_info = $this->package_model->get_package($package_id);
+
+        $this->config->config['pageTitle']= $data['title']='Info for '. $package_info['name'];
+        $this->config->config['notifications']= $this->notification_model->get_unread();
+
+
+            $data['package']=[
+                'package_info' => $package_info,
+                'details'=> $this->package_model->get_details($package_id),
+                'all_packages' => $this->package_model->get_packages(5) #limit
+            ];
+        $this->load->view('templates/header');
+        $this->load->view('packages/single', $data);
+        $this->load->view('templates/footer');
+    }
+
     public function subscribe($package_id)
     {
         // redirect to the page for selecting the months of subscription
@@ -149,7 +178,7 @@ class Packages extends CI_Controller {
             // Set message
             $this->session->set_flashdata('created', 'Subscription will be updated upon payment');
 
-            redirect('students/index');
+            redirect('dashboard/index');
         }
     }
     public function check_name_exists($email){

@@ -72,6 +72,10 @@
 		}
 		// Log in client
 		public function login(){
+			if (isset($_GET['to_where'])) {
+				$this->session->set_userdata('to_where', $_GET['to_where']);
+			}
+
 			$data['title'] = 'Sign In';
 
 			$this->form_validation->set_rules('username', 'Username', 'required');
@@ -103,6 +107,17 @@
 					// Set message
 					$this->session->set_flashdata('user_loggedin', 'You are now logged in');
 
+					// if there was a route saved then go there instead
+					if ($this->session->has_userdata('to_where')) {
+						$route= str_replace('_','/', $this->session->userdata('to_where'));
+
+						// remove the data
+						$this->session->unset_userdata('to_where');
+
+						// go the previous page before login
+						redirect($route);
+					}
+				
 					redirect('resources');
 				} else {
 					// Set message

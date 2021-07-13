@@ -40,30 +40,61 @@
 								<span class="nav-link-text">Home</span>
 							</a>
 						</li>
+						<!-- check login -->
+						<?php if ($this->session->userdata('logged_in')): ?>
+							<!-- if-else for the logged in user -->
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo base_url(); ?>dashboard/index">
+									<i class=" ni ni-tv-2 text-primary"></i>
+									<span class="nav-link-text">Dashboard</span>
+								</a>
+							</li>
+							<?php if ($this->session->userdata('userType') == 'admin'): ?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo base_url(); ?>schools/create">
+										<i class="fa fa-map text-orange"></i>
+										<span class="nav-link-text">Schools</span>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo base_url(); ?>departments/create">
+										<i class="ni ni-single-02 text-yellow"></i>
+										<span class="nav-link-text">Departments</span>
+									</a>
+								</li>
+							<?php elseif($this->session->userdata('userType')== 'researcher'): ?>
+							<?php elseif($this->session->userdata('userType')== 'student'): ?>
+							<?php elseif($this->session->userdata('userType')== 'school'): ?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo base_url(); ?>students/create">
+										<i class="fa fa-users text-primary"></i>
+										<span class="nav-link-text">Students</span>
+									</a>
+								</li>
+							<?php else: ?>
+
+							<?php endif; ?>
+						<?php else: ?>
+							<li class="nav-item">
+								<a class="nav-link" href="<?php echo base_url() ?>clients/login">
+									<i class="ni ni-key-25 text-info"></i>
+									<span class="nav-link-text">Login</span>
+								</a>
+							</li>
+						<?php endif; ?>
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>dashboard/index">
-								<i class=" ni ni-tv-2 text-primary"></i>
-								<span class="nav-link-text">Dashboard</span>
+							<a class="nav-link" href="<?php echo base_url(); ?>resources/index">
+								<i class="ni ni-archive-2 text-default"></i>
+								<span class="nav-link-text">Resources</span>
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>schools/create">
-								<i class="fa fa-map text-orange"></i>
-								<span class="nav-link-text">Schools</span>
+							<a class="nav-link" href="<?php echo base_url(); ?>departments/show">
+								<i class="ni ni-archive-2 text-default"></i>
+								<span class="nav-link-text">Topics</span>
 							</a>
 						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>students/create">
-								<i class="fa fa-users text-primary"></i>
-								<span class="nav-link-text">Students</span>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="<?php echo base_url(); ?>departments/index">
-								<i class="ni ni-single-02 text-yellow"></i>
-								<span class="nav-link-text">Departments</span>
-							</a>
-						</li>
+
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo base_url(); ?>packages/index">
 								<i class="fa fa-database text-default"></i>
@@ -71,21 +102,9 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a class="nav-link" href="login.html">
-								<i class="ni ni-key-25 text-info"></i>
-								<span class="nav-link-text">Login</span>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="register.html">
-								<i class="ni ni-circle-08 text-pink"></i>
-								<span class="nav-link-text">Register</span>
-							</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="upgrade.html">
+							<a class="nav-link" href="<?php echo base_url() ?>researchers/index">
 								<i class="ni ni-send text-dark"></i>
-								<span class="nav-link-text">Upgrade</span>
+								<span class="nav-link-text">Researchers</span>
 							</a>
 						</li>
 					</ul>
@@ -98,12 +117,11 @@
 					<!-- Navigation -->
 					<ul class="navbar-nav mb-md-3">
 						<li class="nav-item">
-							<a class="nav-link" href="https://demos.creative-tim.com/argon-dashboard/docs/getting-started/overview.html" target="_blank">
+							<a class="nav-link" href="<?php echo base_url() ?>pages/agreement" target="_blank">
 								<i class="ni ni-spaceship"></i>
-								<span class="nav-link-text">Getting started</span>
+								<span class="nav-link-text">License agreement</span>
 							</a>
 						</li>
-
 					</ul>
 				</div>
 			</div>

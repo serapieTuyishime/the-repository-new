@@ -38,7 +38,7 @@ class Search extends CI_Controller {
                 array("resources", "title",'resources/resource/') ,
                 array('departments', 'name', 'departments/department/'),
                 array('school', 'name', 'schools/school/'),
-                array('researchers', 'name', 'researchers/researcher/'),
+                array('researchers', 'name', 'researchers/profile/'),
                 array('packages', 'name', 'packages/package/')
             );
 

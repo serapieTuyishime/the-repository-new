@@ -2,6 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['resources/index'] = 'resources/index';
+$route['resources/create'] = 'resources/create';
+
 $route['posts/create'] = 'posts/create';
 $route['posts/update'] = 'posts/update';
 $route['resources/(:any)'] = 'resources/view/$1';
@@ -12,7 +14,12 @@ $route['clients/login'] = 'clients/login';
 
 $route['dashboard'] = 'dashboard/index';
 
+$route['packages'] = 'packages/index';
+
 $route['search'] = 'search/index';
+
+$route['schools'] = 'schools/index';
+$route['schools/index'] = 'schools/index';
 
 $route['departments'] = 'departments/index';
 

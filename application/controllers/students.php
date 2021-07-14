@@ -41,6 +41,16 @@ class Students extends CI_Controller {
                 );
 
                 $this->session->set_userdata($user_data);
+                // if there was a route saved then go there instead
+				if ($this->session->has_userdata('to_where')) {
+					$route= str_replace('_','/', $this->session->userdata('to_where'));
+
+					// remove the data
+					$this->session->unset_userdata('to_where');
+
+					// go the previous page before login
+					redirect($route);
+				}
 
                 redirect('resources/index');
             } else {

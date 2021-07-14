@@ -45,13 +45,13 @@
 							<!-- if-else for the logged in user -->
 							<li class="nav-item">
 								<a class="nav-link" href="<?php echo base_url(); ?>dashboard/index">
-									<i class=" ni ni-tv-2 text-primary"></i>
+									<i class=" ni ni-tv-2 text-red"></i>
 									<span class="nav-link-text">Dashboard</span>
 								</a>
 							</li>
 							<?php if ($this->session->userdata('userType') == 'admin'): ?>
 								<li class="nav-item">
-									<a class="nav-link" href="<?php echo base_url(); ?>schools/create">
+									<a class="nav-link" href="<?php echo base_url(); ?>schools/index">
 										<i class="fa fa-map text-orange"></i>
 										<span class="nav-link-text">Schools</span>
 									</a>
@@ -63,7 +63,32 @@
 									</a>
 								</li>
 							<?php elseif($this->session->userdata('userType')== 'researcher'): ?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo base_url(); ?>resources/create">
+										<i class="fa fa-upload text-cyan"></i>
+										<span class="nav-link-text">Upload</span>
+									</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo base_url(); ?>resources/show">
+										<i class="fa fa-list text-yellow"></i>
+										<span class="nav-link-text">My resources</span>
+									</a>
+								</li>
+							<?php elseif($this->session->userdata('userType')== 'client'): ?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo base_url(); ?>resources/saved_for_later">
+										<i class="fa fa-save text-cyan"></i>
+										<span class="nav-link-text">Saved resources</span>
+									</a>
+								</li>
 							<?php elseif($this->session->userdata('userType')== 'student'): ?>
+								<li class="nav-item">
+									<a class="nav-link" href="<?php echo base_url(); ?>resources/saved_for_later">
+										<i class="fa fa-save text-cyan"></i>
+										<span class="nav-link-text">Saved resources</span>
+									</a>
+								</li>
 							<?php elseif($this->session->userdata('userType')== 'school'): ?>
 								<li class="nav-item">
 									<a class="nav-link" href="<?php echo base_url(); ?>students/create">
@@ -84,8 +109,8 @@
 						<?php endif; ?>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo base_url(); ?>resources/index">
-								<i class="ni ni-archive-2 text-default"></i>
-								<span class="nav-link-text">Resources</span>
+								<i class="fa fa-list text-default"></i>
+								<span class="nav-link-text">All resources</span>
 							</a>
 						</li>
 						<li class="nav-item">

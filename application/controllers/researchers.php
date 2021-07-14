@@ -1,5 +1,29 @@
 <?php
 class Researchers extends CI_Controller{
+	// view all Researchers
+	public function index($offset =0 )
+    {
+		// Pagination Config
+		$config['base_url'] = base_url() . 'researchers/index/';
+		$config['total_rows'] = $this->db->count_all('researchers');
+		$config['per_page'] = 6;
+		$config['uri_segment'] = 3;
+		$config['attributes'] = array('class' => 'pagination-link');
+
+		// Init Pagination
+		$this->pagination->initialize($config);
+
+        // this displays all the resources
+        $this->config->config['pageTitle']= $data['title']='Researchers';
+        $this->config->config['notifications']= $this->notification_model->get_unread();
+
+        $data['researchers'] = $this->researcher_model->get_researchers(FALSE , $config['per_page'], $offset);
+
+        $this->load->view('templates/header');
+        $this->load->view('researchers/index', $data);
+        $this->load->view('templates/footer');
+    }
+
 	// Register researcher
 	public function register(){
 		$data['title'] = 'Sign Up';
@@ -44,6 +68,10 @@ class Researchers extends CI_Controller{
 
 	// Log in researcher
 	public function login(){
+
+		if (isset($_GET['to_where'])) {
+			$this->session->set_userdata('to_where', $_GET['to_where']);
+		}
 		$data['title'] = 'Sign In';
 
 		$this->form_validation->set_rules('username', 'Username', 'required');
@@ -72,8 +100,20 @@ class Researchers extends CI_Controller{
 
 				$this->session->set_userdata($user_data);
 
+
 				// Set message
 				$this->session->set_flashdata('user_loggedin', 'You are now logged in');
+
+				// if there was a route saved then go there instead
+				if ($this->session->has_userdata('to_where')) {
+					$route= str_replace('_','/', $this->session->userdata('to_where'));
+
+					// remove the data
+					$this->session->unset_userdata('to_where');
+
+					// go the previous page before login
+					redirect($route);
+				}
 
 				redirect('dashboard/index');
 			} else {

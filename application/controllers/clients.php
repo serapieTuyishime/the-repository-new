@@ -15,6 +15,14 @@
 
 				$this->client_model->register($enc_password);
 
+				// create account where he will be able to rop up coins
+				$balance_data=[
+					'client_id'=> $this->input->post('username'),
+					'client_type'=> 'client',
+					'balance'=> 1
+				];
+				$this->payment_model->createAccount($balance_data);
+
 				// Set message
 				$this->session->set_flashdata('user_registered', 'You are now registered and can log in');
 
@@ -117,7 +125,7 @@
 						// go the previous page before login
 						redirect($route);
 					}
-				
+
 					redirect('resources');
 				} else {
 					// Set message

@@ -82,6 +82,16 @@
 
 					// Set message
 					$this->session->set_flashdata('user_loggedin', 'You are now logged in');
+                    // if there was a route saved then go there instead
+    				if ($this->session->has_userdata('to_where')) {
+    					$route= str_replace('_','/', $this->session->userdata('to_where'));
+
+    					// remove the data
+    					$this->session->unset_userdata('to_where');
+
+    					// go the previous page before login
+    					redirect($route);
+    				}
 
 					redirect('dashboard/index');
 				} else {

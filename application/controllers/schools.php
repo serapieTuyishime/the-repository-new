@@ -5,6 +5,7 @@
 	    {
 	        if ($this->session->userdata('userType') != 'admin') {
 				$this->session->set_flashdata('login_failed', 'Admins only can view schools');
+				$this->session->set_userdata('to_where', 'schools_index');
 	            redirect('admins/login');
 	        }
 	        $this->config->config['pageTitle']= $data['title']='All schools';
@@ -23,6 +24,7 @@
 			// only admin can create a school
 			if ($this->session->userdata('userType') != 'admin') {
 				$this->session->set_flashdata('login_failed', 'Only admin can add school');
+				$this->session->set_userdata('to_where', 'schools_create');
 				redirect('admins/login');
 			}
 
@@ -71,6 +73,7 @@
 			// only admin can create a school
 			if ($this->session->userdata('userType') != 'admin') {
 				$this->session->set_flashdata('login_failed', 'Only admin can update school');
+				$this->session->set_userdata('to_where', 'schools_edit_'.$id);
 				redirect('admins/login');
 			}
 			$school_info = $this->school_model->get_schools($id);
@@ -152,6 +155,16 @@
 					);
 
 					$this->session->set_userdata($user_data);
+					// if there was a route saved then go there instead
+					if ($this->session->has_userdata('to_where')) {
+						$route= str_replace('_','/', $this->session->userdata('to_where'));
+
+						// remove the data
+						$this->session->unset_userdata('to_where');
+
+						// go the previous page before login
+						redirect($route);
+					}
 
 					redirect('dashboard/index');
 				} else {

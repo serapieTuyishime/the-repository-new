@@ -3,6 +3,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 $route['resources/index'] = 'resources/index';
 $route['resources/create'] = 'resources/create';
+$route['resources/show'] = 'resources/show';
+$route['resources/saved_for_later'] = 'resources/saved_for_later';
 
 $route['posts/create'] = 'posts/create';
 $route['posts/update'] = 'posts/update';
@@ -22,6 +24,9 @@ $route['schools'] = 'schools/index';
 $route['schools/index'] = 'schools/index';
 
 $route['departments'] = 'departments/index';
+
+$route['researchers'] = 'researchers/index';
+$route['researchers/index'] = 'researchers/index';
 
 
 $route['trips'] = 'trips/index';

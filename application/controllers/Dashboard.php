@@ -7,6 +7,7 @@ class Dashboard extends CI_Controller {
 		// Check login
 		if(!$this->session->userdata('logged_in')){
 			$this->session->set_flashdata('login_failed', 'Please at least login');
+			$this->session->set_userdata('to_where', 'dashboard_index');
 			redirect('clients/login');
 		}
 

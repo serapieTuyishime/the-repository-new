@@ -123,7 +123,7 @@
 		// check if the school have an active substription
 		public function subscribed($id){
 
-			$conditions= array('school_id' => $id, 'date_start >' => date('Y-m-d'), 'date_end < ' => date('Y-m-d'), 'active'=> TRUE);
+			$conditions= array('school_id' => $id, 'date_start <' => date('Y-m-d'), 'date_end > ' => date('Y-m-d'), 'active'=> TRUE);
 			$this->db->where($conditions);
 			$query= $this->db->get('subscription');
 

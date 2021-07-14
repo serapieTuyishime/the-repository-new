@@ -96,6 +96,11 @@
 			return $query->result_array();
 		}
 
+		public function saved_for_later($username){
+			$query = $this->db->query("SELECT *, (SELECT title from resources where resources.id = save_for_later.resource_id) as title from save_for_later where username ='".$username."'");
+			return $query->result_array();
+		}
+
 		public function resources_by_researcher($id, $limit = FALSE, $offset = FALSE){
 			if($limit){
 				if (!$offset) {
@@ -105,7 +110,7 @@
 				return $query->result_array();
 			}
 			else {
-				$this->db->order_by('id', 'DESC');
+				// $this->db->order_by('id', 'DESC');
 				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where researcher_id ="'.$id.'" order by downloads desc');
 				return $query->result_array();
 			}
@@ -129,6 +134,10 @@
 				return $query->result_array();
 			}
 
+		}
+		public function delete($id){
+			$this->db->where('id',$id);
+			return $this->db->delete('resources');
 		}
 
     }

@@ -111,71 +111,25 @@
         <div class="container mt--8 pb-5">
             <div class="row justify-content-center">
 
-                <div class="col-lg-5 col-md-7">
+                <div class="col-lg-12 col-md-12">
                     <div class="card bg-secondary border-0 mb-0">
                         <div class="card-body px-lg-5 py-lg-5">
-                            <div class="container">
-                                <!-- Flash messages -->
-                                <?php if($this->session->flashdata('login_failed')): ?>
-                                    <?php echo '<p class="alert alert-danger">'.$this->session->flashdata('login_failed').'</p>'; ?>
-                                <?php endif; ?>
-                                <?php if($this->session->flashdata('user_registered')): ?>
-                                    <?php echo '<p class="alert alert-success">'.$this->session->flashdata('user_registered').'</p>'; ?>
-                                <?php endif; ?>
-                            </div>
-                            <div class="text-center text-muted mb-4">
-                                <h3>Research Sign in or as <a class="btn btn-sm btn-icon-only text-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-list"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="<?php echo base_url(); ?>students/login">Student</a>
-                                    <a class="dropdown-item" href="<?php echo base_url(); ?>clients/login">Client</a>
-                                    <a class="dropdown-item" href="<?php echo base_url(); ?>admins/login">Admin</a>
-                                    <a class="dropdown-item" href="<?php echo base_url(); ?>schools/login">School</a>
-                                </div></h3>
-                            </div>
-                            <div class="text-warning font-weight-bold">
-                                <?php echo validation_errors(); ?>
-                            </div>
-                            <?php echo form_open('researchers/login','login_form'); ?>
-                                <div class="form-group mb-3">
-                                    <div class="input-group input-group-merge input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="fa fa-user"></i></span>
-                                        </div>
-                                        <input class="form-control" placeholder="Username" type="text" name="username">
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <div class="input-group input-group-merge input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                        </div>
-                                        <input class="form-control" placeholder="Password" type="password" name="password">
-                                    </div>
-                                </div>
-                                <div class="custom-control custom-control-alternative custom-checkbox">
-                                    <div class="row mt-3">
-                                        <div class="col-6">
-                                            <a href="<?php echo base_url() ?>researchers/forgot_password" class="text-dark"><small>Forgot password?</small></a>
-                                        </div>
-                                        <div class="col-6 text-right">
-                                            <a href="<?php echo base_url() ?>researchers/register" class="text-dark"><small>Create new account</small></a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="text-center">
-                                    <button type="submit" class="btn btn-primary my-4">Sign in</button>
-                                </div>
-                            <?php echo form_close(); ?>
-                        </div>
-                    </div>
-                    <div class="row mt-3">
-                        <div class="col-6">
-                            <a href="<?php echo base_url() ?>researchers/forgot_password" class="text-light"><small>Forgot password?</small></a>
-                        </div>
-                        <div class="col-6 text-right">
-                            <a href="<?php echo base_url() ?>researchers/register" class="text-light"><small>Create new account</small></a>
+                            <p class="">
+                            <?php if (file_exists(getcwd()."\\application\\views\\pages\\agreement.txt")): ?>
+                                <?php
+                                $filename= getcwd()."\\application\\views\\pages\\agreement.txt";
+                                $fp = fopen($filename, "r");
+                                $contents = fread($fp, filesize($filename));
+                                echo "<pre>$contents</pre>";
+                                fclose($fp);
+                                 ?>
+                            <?php else: ?>
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+                            <?php endif; ?>
+                            </p>
+
+
                         </div>
                     </div>
                 </div>

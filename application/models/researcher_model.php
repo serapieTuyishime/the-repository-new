@@ -95,4 +95,17 @@
 			$query = $this->db->get_where('researchers', array('id' => $id));
 			return $query->row_array();
 		}
+
+		// get researcher info by email
+		public function get_researcher_by_email($email)
+		{
+			$query = $this->db->get_where('researchers', array('email' => $email));
+			if ( empty($query->row_array()))
+			{
+				return false;
+			}
+			else {
+				return $query->row_array();
+			}
+		}
 	}

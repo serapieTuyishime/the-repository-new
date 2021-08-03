@@ -25,7 +25,7 @@
 				$this->db->insert('package_detail', $details);
 			}
 
-			return ;
+			return $package_id;
         }
 		public function delete_details($package_id){
 			$this->db->where('package_id',$package_id);
@@ -105,5 +105,12 @@
 		public function get_details($id){
 			$query= $this->db->query('SELECT *, (SELECT name from departments where departments.id = package_detail.department_id limit 1) as department_name from package_detail where package_id =' .$id);
 			return $query->result_array();
+		}
+
+		// activate package
+		public function activate_package($id){
+			$data= array('active'=> TRUE);
+			$this->db->where('id', $id);
+			$this->db->update('subscription', $data);
 		}
 	}

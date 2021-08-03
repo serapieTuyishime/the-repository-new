@@ -7,9 +7,9 @@
 
 			// if we are loading the home page emit the header and footer cz it has its own
 
-			if ($page=='home') 
+			if ($page=='home')
 			{
-				$this->load->view('pages/'.$page);	
+				$this->load->view('pages/'.$page);
 			}
 			else
 			{
@@ -20,6 +20,13 @@
 				$this->load->view('templates/footer');
 			}
 
-			
+		}
+
+		public function agreement(){
+			$data['title']= "User agreement";
+			$this->load->view('pages/agreement', $data);
+		}
+		public function about(){
+			$this->load->view('pages/about');
 		}
 	}

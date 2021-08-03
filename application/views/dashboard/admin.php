@@ -41,8 +41,8 @@
                         <div class="card-body">
                             <div class="row">
                                 <div class="col">
-                                    <h5 class="card-title text-uppercase text-muted mb-0">Total sections</h5>
-                                    <span class="h2 font-weight-bold mb-0"><?php echo $departments; ?></span>
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Money made</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo $coins; ?></span>
                                 </div>
                                 <div class="col-auto">
                                     <div class="icon icon-shape bg-gradient-green text-white rounded-circle shadow">
@@ -51,8 +51,8 @@
                                 </div>
                             </div>
                             <p class="mt-3 mb-0 text-sm">
-                                <a href="<?php echo base_url(); ?>departments/index">
-                                    <span class="text-nowrap">View more</span>
+                                <a href="<?php echo base_url(); ?>payments/index">
+                                    <span class="text-nowrap">Details</span>
                                 </a>
                             </p>
                         </div>
@@ -170,6 +170,7 @@
                             <th scope="col">School</th>
                             <th scope="col">Package</th>
                             <th scope="col">Active until</th>
+                            <th scope="col">Active ?</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -179,6 +180,7 @@
                                     <th scope="row"><?php echo $value['school'] ?></th>
                                     <td><?php echo $value['package'] ?></td>
                                     <td><?php echo $value['date_end'] ?></td>
+                                    <td><?php echo ($value['active'])? 'Yes': 'No'; ?></td>
                                 </tr>
                             <?php endforeach; unset($value); unset($key);?>
                         <?php endif; ?>

@@ -70,6 +70,12 @@
 									</a>
 								</li>
 								<li class="nav-item">
+									<a class="nav-link" href="<?php echo base_url().'researchers/profile/'.$this->session->userdata('user_id'); ?>">
+										<i class="fa fa-user text-orange"></i>
+										<span class="nav-link-text">My profile</span>
+									</a>
+								</li>
+								<li class="nav-item">
 									<a class="nav-link" href="<?php echo base_url(); ?>resources/show">
 										<i class="fa fa-list text-yellow"></i>
 										<span class="nav-link-text">My resources</span>
@@ -115,7 +121,7 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo base_url(); ?>departments/show">
-								<i class="ni ni-archive-2 text-default"></i>
+								<i class="fa fa-boxes text-green"></i>
 								<span class="nav-link-text">Topics</span>
 							</a>
 						</li>
@@ -128,7 +134,7 @@
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo base_url() ?>researchers/index">
-								<i class="ni ni-send text-dark"></i>
+								<i class="fa fa-users text-cyan"></i>
 								<span class="nav-link-text">Researchers</span>
 							</a>
 						</li>
@@ -145,6 +151,12 @@
 							<a class="nav-link" href="<?php echo base_url() ?>pages/agreement" target="_blank">
 								<i class="ni ni-spaceship"></i>
 								<span class="nav-link-text">License agreement</span>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="<?php echo base_url() ?>pages/view/about" target="">
+								<i class="ni ni-spaceship"></i>
+								<span class="nav-link-text">About</span>
 							</a>
 						</li>
 					</ul>
@@ -314,10 +326,10 @@
 										<span>Logout</span>
 									</a>
 								<?php endif; ?>
-								<a href="#!" class="dropdown-item">
+								<!-- <a href="#!" class="dropdown-item">
 									<i class="ni ni-single-02"></i>
 									<span>My profile</span>
-								</a>
+								</a> -->
 								<a href="#!" class="dropdown-item">
 									<i class="ni ni-settings-gear-65"></i>
 									<span>Settings</span>
@@ -369,38 +381,11 @@
 				<?php echo '<p class="alert alert-warning">'.$this->session->flashdata('not_matching').'</p>'; ?>
 			<?php endif; ?>
 
-			<?php if($this->session->flashdata('route_edited')): ?>
-				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('route_edited').'</p>'; ?>
-			<?php endif; ?>
-
-			<?php if($this->session->flashdata('bus_created')): ?>
-				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('bus_created').'</p>'; ?>
-			<?php endif; ?>
-
-			<?php if($this->session->flashdata('bus_edited')): ?>
-				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('bus_edited').'</p>'; ?>
-			<?php endif; ?>
-
-			<?php if($this->session->flashdata('bus_deleted')): ?>
-				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('bus_deleted').'</p>'; ?>
-			<?php endif; ?>
-
-
-			<?php if($this->session->flashdata('category_created')): ?>
-				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('category_created').'</p>'; ?>
-			<?php endif; ?>
 
 			<?php if($this->session->flashdata('login_failed')): ?>
 				<?php echo '<p class="alert alert-danger">'.$this->session->flashdata('login_failed').'</p>'; ?>
 			<?php endif; ?>
 
-			<?php if($this->session->flashdata('user_loggedin')): ?>
-				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('user_loggedin').'</p>'; ?>
-			<?php endif; ?>
-
-			<?php if($this->session->flashdata('user_loggedout')): ?>
-				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('user_loggedout').'</p>'; ?>
-			<?php endif; ?>
 
 			<?php if($this->session->flashdata('deleted')): ?>
 				<?php echo '<p class="alert alert-success">'.$this->session->flashdata('deleted').'</p>'; ?>

@@ -36,7 +36,7 @@
                                         </a>
                                     <?php else: ?>
                                         <a href="<?php echo base_url().'packages/subscribe/'.$value['id']; ?>" >
-                                            <span class="d-none d-md-block btn btn-primary"><i class="fa fa-coins"></i> Get</span>
+                                            <span class="d-none d-md-block btn "> More info</span>
                                             <span class="d-md-none"><i class="fa fa-coins"></i></span>
                                         </a>
                                     <?php endif; ?>

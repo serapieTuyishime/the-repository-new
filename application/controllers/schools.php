@@ -1,5 +1,5 @@
 <?php
-
+defined('BASEPATH') OR exit('No direct script access allowed');
 	class Schools extends CI_Controller{
 		public function index()
 	    {
@@ -59,6 +59,14 @@
 			{
 				// Encrypt password
 				$enc_password = md5($this->input->post('password'));
+
+				// create account where he will be able to top up coins
+				$balance_data=[
+					'client_id'=> $this->input->post('username'),
+					'client_type'=> 'school',
+					'balance'=> 1
+				];
+				$this->payment_model->createAccount($balance_data);
 
 				$this->school_model->create($enc_password);
 				// Set message

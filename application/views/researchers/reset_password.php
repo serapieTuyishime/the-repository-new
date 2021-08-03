@@ -124,45 +124,27 @@
                                 <?php endif; ?>
                             </div>
                             <div class="text-center text-muted mb-4">
-                                <h3>Research Sign in or as <a class="btn btn-sm btn-icon-only text-danger" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <i class="fa fa-list"></i>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
-                                    <a class="dropdown-item" href="<?php echo base_url(); ?>students/login">Student</a>
-                                    <a class="dropdown-item" href="<?php echo base_url(); ?>clients/login">Client</a>
-                                    <a class="dropdown-item" href="<?php echo base_url(); ?>admins/login">Admin</a>
-                                    <a class="dropdown-item" href="<?php echo base_url(); ?>schools/login">School</a>
-                                </div></h3>
+                                <h3>Researcher reset password </h3>
                             </div>
                             <div class="text-warning font-weight-bold">
                                 <?php echo validation_errors(); ?>
                             </div>
-                            <?php echo form_open('researchers/login','login_form'); ?>
+                            <?php echo form_open('researchers/forgot_password','login_form'); ?>
                                 <div class="form-group mb-3">
                                     <div class="input-group input-group-merge input-group-alternative">
                                         <div class="input-group-prepend">
                                             <span class="input-group-text"><i class="fa fa-user"></i></span>
                                         </div>
-                                        <input class="form-control" placeholder="Username" type="text" name="username">
+                                        <input class="form-control" placeholder="Email" type="email" name="email">
                                     </div>
                                 </div>
-                                <div class="form-group">
-                                    <div class="input-group input-group-merge input-group-alternative">
-                                        <div class="input-group-prepend">
-                                            <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
-                                        </div>
-                                        <input class="form-control" placeholder="Password" type="password" name="password">
-                                    </div>
-                                </div>
+                                <small>
+                                    Provide the email you registered with
+                                </small>
                                 <div class="custom-control custom-control-alternative custom-checkbox">
-                                    <div class="row mt-3">
-                                        <div class="col-6">
-                                            <a href="<?php echo base_url() ?>researchers/forgot_password" class="text-dark"><small>Forgot password?</small></a>
-                                        </div>
-                                        <div class="col-6 text-right">
-                                            <a href="<?php echo base_url() ?>researchers/register" class="text-dark"><small>Create new account</small></a>
-                                        </div>
-                                    </div>
+                                    <label class="text-sm" >
+                                        Don't have an account ?  <span class="text-muted"><a href="<?php echo base_url()?>Researchers/register">Sign up</a></span>
+                                    </label>
                                 </div>
                                 <div class="text-center">
                                     <button type="submit" class="btn btn-primary my-4">Sign in</button>

@@ -1,4 +1,5 @@
 <?php
+defined('BASEPATH') OR exit('No direct script access allowed');
 class Researchers extends CI_Controller{
 	// view all Researchers
 	public function index($offset =0 )
@@ -119,6 +120,38 @@ class Researchers extends CI_Controller{
 			} else {
 				// Set message
 				$this->session->set_flashdata('login_failed', 'Login is invalid');
+
+				redirect('researchers/login');
+			}
+		}
+	}
+
+	// reset the password in case forgotten
+	public function forgot_password(){
+
+		$data['title'] = 'Password reset';
+
+		$this->form_validation->set_rules('email', 'Email', 'required');
+
+		if($this->form_validation->run() === FALSE){
+			$this->load->view('researchers/reset_password', $data);
+		} else {
+
+			// Get username
+			$email = $this->input->post('email');
+			// Get and encrypt the password
+			$enc_password = md5('123456');
+
+			if($this->researcher_model->get_researcher_by_email($email)){
+				$researcher_info= $this->researcher_model->get_researcher_by_email($email);
+				$this->researcher_model->update_passsword($enc_password, $researcher_info['id']);
+				// Set message
+				$this->session->set_flashdata('user_registered', 'Password reset to 123456');
+
+				redirect('researchers/login');
+			} else {
+				// Set message
+				$this->session->set_flashdata('login_failed', 'The email entered was not one of ours');
 
 				redirect('researchers/login');
 			}

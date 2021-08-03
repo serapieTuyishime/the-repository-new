@@ -21,7 +21,7 @@
 		// get subscriptions by school even though they are likely to be just one
 		public function subscription_per_school($school_id){
 			$this->db->order_by('date_end', 'asc');
-			$query = $this->db->get_where('subscription', array('school_id' => $school_id , 'active'=> TRUE , 'date_end > ' => date('Y-M-d')));
+			$query = $this->db->get_where('subscription', array('school_id' => $school_id , 'date_end > ' => date('Y-M-d')));
 			return $query->result_array();
 		}
 

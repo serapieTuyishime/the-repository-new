@@ -131,6 +131,7 @@
                             <th scope="col">Title</th>
                             <th scope="col">Downloads</th>
                             <th scope="col">Saves</th>
+                            <th scope="col">Coins made</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -140,6 +141,7 @@
                                     <th scope="row"><?php echo $value['title'] ?></th>
                                     <td><?php echo $value['downloads'] ?></td>
                                     <td><?php echo $value['saves'] ?></td>
+                                    <td><?php echo $value['solo_downloads'] * $value['price'] ?></td>
                                 </tr>
                             <?php endforeach; unset($value); unset($key);?>
                         <?php endif; ?>

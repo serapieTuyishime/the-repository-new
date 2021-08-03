@@ -151,8 +151,9 @@ class Packages extends CI_Controller {
 
         $this->form_validation->set_rules('months', 'Months', 'required');
 
-        // get school id
+        // get school id and username
         $school_id = $this->session->userdata('user_id');
+        $school_username = $this->session->userdata('username');
 
         if($this->form_validation->run() === FALSE)
         {
@@ -174,12 +175,87 @@ class Packages extends CI_Controller {
         else
         {
             // create a package then add the details in a table
-            $this->package_model->subscribe($package_id);
-            // Set message
-            $this->session->set_flashdata('created', 'Subscription will be updated upon payment');
+            $subscription_id = $this->package_model->subscribe($package_id);
+
+            // check if the school have enough coins the activate it or not
+            $school_balance= $this->payment_model->check_balance($school_username, 'school')['balance'];
+            $total_cost = $package_info['price'] * $this->input->post('months');
+
+            if ($school_balance >= $total_cost) {
+                // reduce the balance then activate the package
+                $newbalance= $school_balance- $total_cost;
+                $this->payment_model->update_client_price($newbalance, $school_username, 'school');
+                $this->package_model->activate_package($subscription_id);
+
+                // record the transaction
+                $transaction_data=
+                [
+                    'type'=>'in',
+                    'details'=> 'Activation of subscription '. $subscription_id,
+                    'amount'=> $total_cost,
+                    'reference_no'=> $school_username,
+                ];
+                $this->payment_model->create_transaction($transaction_data);
+                
+                $this->session->set_flashdata('created', 'Subscription activated and your balance reduced by '.$total_cost);
+            }
+            else {
+                $this->session->set_flashdata('created', 'Subscription will be updated upon payment');
+            }
+
 
             redirect('dashboard/index');
         }
+    }
+
+    public function activate($subscription_id){
+        if ($this->session->userdata('userType') != 'school') {
+            $this->session->set_userdata('to_where', 'packages_activate_'.$subscription_id);
+            $this->session->set_flashdata('login_failed', 'Login as a school first');
+            redirect('schools/login');
+        }
+        $school_username = $this->session->userdata('username');
+        $school_balance= $this->payment_model->check_balance($school_username, 'school')['balance'];
+        $subscription_info = $this->subscription_model->get_subscriptions($subscription_id);
+
+        // calculate total months subscribed for
+
+        $date1 = new DateTime($subscription_info['date_start']);
+        $date2 = new DateTime($subscription_info['date_end']);
+        $interval = $date1->diff($date2);
+        $months= round($interval->days / 30);  # months subscribed
+
+        // get the price of the package
+        $package_id = $subscription_info['package_id'];
+        $package_price= $this->package_model->get_package($package_id)['price'];
+
+        $total_cost= $package_price *  $months;
+
+        if ($school_balance >= $total_cost) {
+            // reduce the balance then activate the package
+            $newbalance= $school_balance- $total_cost;
+
+            $this->payment_model->update_client_price($newbalance, $school_username, 'school');
+            $this->package_model->activate_package($subscription_id);
+
+            // record the transaction
+            $transaction_data=
+            [
+                'type'=>'in',
+                'details'=> 'Activation of subscription '. $id,
+                'amount'=> $total_cost,
+                'reference_no'=> $school_username,
+            ];
+            $this->payment_model->create_transaction($transaction_data);
+
+            $this->session->set_flashdata('created', 'Subscription activated and your balance reduced by '.$total_cost);
+        }
+        else {
+            $this->session->set_flashdata('not_matching', 'You do not have sufficient balance to activate the package');
+        }
+        redirect('dashboard/index');
+
+
     }
     public function check_name_exists($email){
         $this->form_validation->set_message('check_name_exists', 'That name is taken. Please choose a different one');

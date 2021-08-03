@@ -106,12 +106,12 @@
 				if (!$offset) {
 					$offset =0 ;
 				}
-				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where researcher_id ="'.$id.'" order by downloads desc LIMIT '. $limit . ' OFFSET ' . $offset);
+				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads,(SELECT count(resource_id) from downloads where downloads.resource_id = resources.id and on_subscription = FALSE) as solo_downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where researcher_id ="'.$id.'" order by downloads desc LIMIT '. $limit . ' OFFSET ' . $offset);
 				return $query->result_array();
 			}
 			else {
 				// $this->db->order_by('id', 'DESC');
-				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where researcher_id ="'.$id.'" order by downloads desc');
+				$query = $this->db->query('SELECT *, (SELECT count(resource_id) from downloads where downloads.resource_id = resources.id) as downloads,(SELECT count(resource_id) from downloads where downloads.resource_id = resources.id and on_subscription = FALSE) as solo_downloads, (SELECT count(resource_id) from save_for_later where save_for_later.resource_id = resources.id) as saves, (SELECT name from researchers where researchers.id = resources.researcher_id) as author FROM resources where researcher_id ="'.$id.'" order by downloads desc');
 				return $query->result_array();
 			}
 

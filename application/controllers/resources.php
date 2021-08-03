@@ -78,7 +78,6 @@ class resources extends CI_Controller {
         }
         else
         {
-            $this->load->library('upload', $config);
             // create a slug title
             $title_slug = url_title($this->input->post('name'));  # ex : the-repository-project
 
@@ -95,8 +94,8 @@ class resources extends CI_Controller {
             $config['max_size'] = '10240'; #10MB
             // die(print_r($config));
 
-            // $this->load->library('upload', $config); #the library for uploading images and other documents
-            $this->upload->initialize($config);
+            $this->load->library('upload', $config); #the library for uploading images and other documents
+            // $this->upload->initialize($config);
             if(!$this->upload->do_upload())
             {
                 $errors = array('error' => $this->upload->display_errors());
@@ -106,7 +105,7 @@ class resources extends CI_Controller {
                     rmdir($title_slug); #delete the folder
 
                 # do not upload when there are errors with the file
-                $this->session->set_flashdata('not_matching', 'Problems with the file being uploaded');
+                $this->session->set_flashdata('not_matching', 'Problems with the file being uploaded, could the the format');
 
                 redirect('resources/create');
                 die();
@@ -338,7 +337,7 @@ class resources extends CI_Controller {
                             $this->resources_model->saveDownload($data); // save download
 
                             $this->session->set_flashdata('created', 'File downloaded');
-                            redirect('resources/resource/'. $resource_id);
+                            redirect('resources/index');
                         }
                         else {
                             $this->session->set_flashdata('not_matching', 'Unable to download the file Please try other resources');
@@ -380,7 +379,7 @@ class resources extends CI_Controller {
                         $newClientPrice= $balance['balance']- $resource_info['price'];
 
                         // update client price
-                        $this->payment_model->update_client_price($newClientPrice, $client_id);
+                        $this->payment_model->update_client_price($newClientPrice, $client_id, 'client');
 
                         // record the transaction
                         $transaction_data=
@@ -429,6 +428,8 @@ class resources extends CI_Controller {
                     header('Content-Length: ' . filesize($filepath));
                     flush(); // Flush system output buffer
                     readfile($filepath);
+
+
                 }
                 else {
                     $this->session->set_flashdata('not_matching', 'Unable to download the file Please try other resources');
@@ -437,9 +438,11 @@ class resources extends CI_Controller {
                 }
 
             default:
-                $this->session->set_flashdata('not_matching', 'Errors present please try logging out and logging in');
+                $this->session->set_flashdata('not_matching', 'Students and clients only able to download');
                 redirect ('resources/index');
                 break;
+
+
         }
     }
 

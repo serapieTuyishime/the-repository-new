@@ -82,6 +82,27 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-xl-3 col-md-6">
+                    <div class="card card-stats">
+                        <!-- Card body -->
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col">
+                                    <h5 class="card-title text-uppercase text-muted mb-0">Coins</h5>
+                                    <span class="h2 font-weight-bold mb-0"><?php echo $balance ?></span>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="icon icon-shape bg-gradient-yellow text-white rounded-circle shadow">
+                                        <i class="fa fa-coins"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="mt-3 mb-0 text-sm">
+                                    <span class="text-nowrap">As of today</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -104,19 +125,27 @@
                 <table class="table align-items-center table-flush">
                     <thead class="thead-light">
                         <tr>
+                            <th scope="col"><i class="fa fa-hashtag"></i></th>
                             <th scope="col">Package ID</th>
                             <th scope="col">Date start</th>
                             <th scope="col">Date End</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php if (!empty($packages)): ?>
                             <?php foreach ($packages as $key => $value): ?>
                                 <tr>
+                                    <td><?php echo $value['id'] ?></td>
                                     <th scope="row">  <a href="<?php echo base_url().'packages/package/'. $value['package_id'] ?>"><?php echo $value['package_id'] ?></a>
                                     </th>
                                     <td><?php echo $value['date_start'] ?></td>
                                     <td><?php echo $value['date_end'] ?></td>
+                                    <td><?php
+                                        if (!$value['active']) {
+                                            echo "<a href='".base_url()."packages/activate/". $value['id'] ."'><button class='btn btn-sm btn-warning'>Activate</a>";
+                                        }
+                                     ?></td>
                                 </tr>
                             <?php endforeach; unset($value); unset($key);?>
                         <?php else: ?>

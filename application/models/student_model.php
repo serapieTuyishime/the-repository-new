@@ -70,6 +70,15 @@
 				return false;
 			}
         }
+		// check if email is taken by other student
+		public function check_email_exists_edit($email, $username){
+			$query = $this->db->get_where('students', array('email' => $email, 'username !='=> $username));
+			if(empty($query->row_array())){
+				return true;
+			} else {
+				return false;
+			}
+		}
         //  get the last inserted id in the studens table
         public function getNextID()
         {
@@ -85,6 +94,10 @@
 
             $query = $this->db->get_where('students', array('school_id' => $id));
 			return $query->result_array();
+		}
+		public function get_student($id){
+            $query = $this->db->get_where('students', array('id' => $id));
+			return $query->row_array();
 		}
 		public function verify_password($id, $password){
 			// Validate
@@ -109,5 +122,18 @@
 			}
 			$this->db->where('id', $student_id);
 			return $this->db->update('students', $data);
+		}
+
+		public function update(){
+			$data = array(
+				'name' => $this->input->post('name') ,
+				'email'=> $this->input->post('email')
+		 	);
+			$this->db->where('username', $this->input->post('usernameEdit'));
+			return $this->db->update('students', $data);
+		}
+		public function delete($id){
+			$this->db->where('id' ,$id );
+			return $this->db->delete('students');
 		}
 	}

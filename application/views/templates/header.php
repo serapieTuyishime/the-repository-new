@@ -122,7 +122,7 @@
 						<li class="nav-item">
 							<a class="nav-link" href="<?php echo base_url(); ?>departments/show">
 								<i class="fa fa-boxes text-green"></i>
-								<span class="nav-link-text">Topics</span>
+								<span class="nav-link-text">Categories</span>
 							</a>
 						</li>
 

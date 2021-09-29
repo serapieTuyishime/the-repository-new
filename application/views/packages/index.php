@@ -7,6 +7,12 @@
                         <h3 class="mb-0">Browse Packages</h3>
                     </div>
                     <div class="col text-right">
+
+                        <?php if ($this->session->userdata('userType')=='admin'): ?>
+                            <a href="<?php echo base_url(); ?>packages/create" class="btn btn-sm btn-primary">New</a>
+                        <?php else: ?>
+                            
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>

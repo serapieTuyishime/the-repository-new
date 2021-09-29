@@ -62,6 +62,12 @@ class Students extends CI_Controller {
         }
     }
     public function create(){
+        // only school admin can add student
+        if ($this->session->userdata('userType') != 'school') {
+            $this->session->set_flashdata('login_failed', 'Login as school');
+            $this->session->set_userdata('to_where', 'students_create');
+            redirect('schools/login');
+        }
 
         $this->config->config['pageTitle']=$data['title'] = 'Add Student';
 
@@ -101,6 +107,60 @@ class Students extends CI_Controller {
             redirect('students/create');
         }
 
+    }
+    public function edit($id){
+        // // only school admin can update student info
+        if ($this->session->userdata('userType') != 'school') {
+            $this->session->set_flashdata('login_failed', 'Login as school');
+            $this->session->set_userdata('to_where', 'students_create');
+            redirect('schools/login');
+        }
+        $this->config->config['pageTitle']=$data['title'] = 'Update student info';
+
+        $this->form_validation->set_rules('name', 'Name', 'required');
+
+        $student_info= $this->student_model->get_student($id);
+        if($this->form_validation->run() === FALSE)
+        {
+            $school_id= $this->session->userdata('user_id');
+            $data['student']=[
+                'id'=>$student_info['id'],
+                'name'=>$student_info['name'],
+                'email'=>$student_info['email'],
+                'username'=>$student_info['username'],
+                'all_students'=>$this->student_model->StudentsBySchool($school_id ,6) #bring a max of 6 students
+            ];
+
+            $this->config->config['notifications']= $this->notification_model->get_unread();
+
+            $this->load->view('templates/header');
+            $this->load->view('students/edit', $data);
+            $this->load->view('templates/footer');
+        }
+        else
+        {
+            if ($this->student_model->check_email_exists_edit($this->input->post('email'), $this->input->post('usernameEdit'))) {
+                $this->student_model->update();
+                $this->session->set_flashdata('created', 'Student info has been edited');
+                redirect('students/index');
+            }
+
+            else {
+                $this->session->set_flashdata('not_matching', 'The student\'s email arleady exist');
+                redirect('students/index');
+            }
+        }
+
+    }
+    public function delete($id){
+        if ($this->session->userdata('userType') != 'school') {
+            $this->session->set_flashdata('login_failed', 'Login as school');
+            $this->session->set_userdata('to_where', 'students_delete');
+            redirect('schools/login');
+        }
+        $this->student_model->delete($id);
+        $this->session->set_flashdata('created', 'Delete complete');
+        redirect('students/index');
     }
     public function check_email_exists($email){
         $this->form_validation->set_message('check_email_exists', 'That email is taken. Please choose a different one');

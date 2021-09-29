@@ -36,9 +36,9 @@ class resources extends CI_Controller {
         $this->config->config['pageTitle']= $data['title']='My resources';
         $this->config->config['notifications']= $this->notification_model->get_unread();
 
-        $school_id= $this->session->userdata('user_id');
-        $data['resources'] = $this->resources_model->resources_by_researcher($school_id);
-
+        $researcher_id= $this->session->userdata('user_id');
+        $data['resources'] = $this->resources_model->resources_by_researcher($researcher_id);
+        // die(print_r($data));
         $this->load->view('templates/header');
         $this->load->view('resources/show', $data);
         $this->load->view('templates/footer');
@@ -132,6 +132,24 @@ class resources extends CI_Controller {
         }
 
 
+    }
+
+    // view the resources statitics by the admin
+    public function statistics(){
+        // purely informative
+        if ($this->session->userdata('userType') != 'admin') {
+            $this->session->set_flashdata('login_failed', 'Plase login as an admin first to continue');
+            $this->session->set_userdata('to_where', 'resources_statistics');
+            redirect('admins/login');
+        }
+        $this->config->config['pageTitle']= $data['title']='Resources statictics';
+        $this->config->config['notifications']= $this->notification_model->get_unread();
+
+        $data['resources'] = $this->resources_model->get_resources();
+        // die(print_r($data));
+        $this->load->view('templates/header');
+        $this->load->view('resources/statistics', $data);
+        $this->load->view('templates/footer');
     }
 
     public function edit($id)

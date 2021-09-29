@@ -174,6 +174,12 @@ class Packages extends CI_Controller {
         }
         else
         {
+            // only the school can susbscribe to a package
+            if ($this->session->userdata('userType') != 'school') {
+                $this->session->set_userdata('to_where', 'packages_subscribe_'.$package_id);
+                $this->session->set_flashdata('login_failed', 'Login as a school first');
+                redirect('schools/login');
+            }
             // create a package then add the details in a table
             $subscription_id = $this->package_model->subscribe($package_id);
 
@@ -195,8 +201,9 @@ class Packages extends CI_Controller {
                     'amount'=> $total_cost,
                     'reference_no'=> $school_username,
                 ];
+                // die(print_r($transaction_data));
                 $this->payment_model->create_transaction($transaction_data);
-                
+
                 $this->session->set_flashdata('created', 'Subscription activated and your balance reduced by '.$total_cost);
             }
             else {

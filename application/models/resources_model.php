@@ -21,8 +21,7 @@
             $title_slug = url_title($this->input->post('name'));
             $data = array(
 				'title_slug' => $title_slug,
-                // 'researcher_id'=> $this->session->userdata('user_id'),
-                'researcher_id'=> 1,
+                'researcher_id'=> $this->session->userdata('user_id'),
                 'department' => $this->input->post('department'),
 				'title' => $this->input->post('name'),
 				'price' => $this->input->post('price'),
